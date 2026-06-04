@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { HexBackground } from './components/HexBackground.jsx';
 import { CategoryPicker } from './components/CategoryPicker.jsx';
 import { QueueStatus } from './components/QueueStatus.jsx';
 import { useOfflineQueue } from './hooks/useOfflineQueue.js';
@@ -71,6 +72,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <HexBackground />
       <header className="app-header">
         <div className="app-logo-wrap">🎙</div>
         <span className="app-title">VoiceMem</span>

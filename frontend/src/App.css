@@ -2,10 +2,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #000;
-  --surface:   #111;
-  --surface2:  #1a1a1a;
-  --border:    #262626;
+  --bg:        #050510;
+  --surface:   rgba(10, 10, 28, 0.85);
+  --surface2:  rgba(20, 20, 45, 0.8);
+  --border:    rgba(255,255,255,0.1);
   --text:      #fafafa;
   --muted:     #a8a8a8;
   --faint:     #363636;
@@ -37,6 +37,8 @@ body {
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: env(safe-area-inset-bottom, 20px);
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── Header ───────────────────────────────────────────────── */
@@ -45,6 +47,9 @@ body {
   align-items: center;
   gap: 10px;
   padding: 16px 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(5, 5, 16, 0.6);
 }
 
 .app-logo-wrap {
@@ -146,7 +151,9 @@ body {
 
 .main-textarea {
   width: 100%;
-  background: var(--surface);
+  background: rgba(5, 5, 20, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: none;
   border-radius: calc(var(--radius) - 2px);
   padding: 16px;
