@@ -95,11 +95,17 @@ export default function App() {
         {/* ── IDLE: main input screen ── */}
         {appState === STATE.IDLE && (
           <div className="input-panel">
-            <div className="textarea-wrap">
+            <button
+              className="wispr-btn"
+              onClick={() => textareaRef.current?.focus()}
+            >
+              🎤 Tik hier — activeer dan Wispr Flow
+            </button>
+            <div className="textarea-wrap" onClick={() => textareaRef.current?.focus()}>
               <textarea
                 ref={textareaRef}
                 className="main-textarea"
-                placeholder="Je memo verschijnt hier…"
+                placeholder="Tekst verschijnt hier zodra je dicteert…"
                 value={text}
                 onChange={e => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
