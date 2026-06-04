@@ -95,7 +95,6 @@ export default function App() {
         {/* ── IDLE: main input screen ── */}
         {appState === STATE.IDLE && (
           <div className="input-panel">
-            <p className="input-hint">Spreek via Wispr Flow of het toetsenbord 🎙</p>
             <div className="textarea-wrap">
               <textarea
                 ref={textareaRef}
