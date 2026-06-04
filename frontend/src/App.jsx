@@ -72,13 +72,14 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <span className="app-logo">🎙</span>
+        <div className="app-logo-wrap">🎙</div>
         <span className="app-title">VoiceMem</span>
         <span
           className={`backend-dot ${backendOk === null ? 'dot--unknown' : backendOk ? 'dot--ok' : 'dot--err'}`}
           title={backendOk === null ? 'Verbinden…' : backendOk ? 'Verbonden' : 'Backend niet bereikbaar'}
         />
       </header>
+      <div className="header-divider" />
 
       <QueueStatus
         queueCount={offlineQueue.queueCount}
@@ -95,16 +96,18 @@ export default function App() {
             <p className="input-hint">
               Spreek via Wispr Flow of het toetsenbord 🎙
             </p>
-            <textarea
-              ref={textareaRef}
-              className="main-textarea"
-              placeholder="Je memo verschijnt hier…"
-              value={text}
-              onChange={e => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              rows={6}
-              autoFocus
-            />
+            <div className="textarea-wrap">
+              <textarea
+                ref={textareaRef}
+                className="main-textarea"
+                placeholder="Je memo verschijnt hier…"
+                value={text}
+                onChange={e => setText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                rows={6}
+                autoFocus
+              />
+            </div>
             <CategoryPicker selected={category} onChange={setCategory} />
             <div className="review-actions">
               <button
@@ -127,7 +130,7 @@ export default function App() {
         {/* ── SENDING ── */}
         {appState === STATE.SENDING && (
           <div className="status-panel">
-            <div className="spinner" />
+            <div className="spinner-wrap"><div className="spinner-inner" /></div>
             <p className="status-text">Versturen naar Mem…</p>
           </div>
         )}
@@ -135,7 +138,7 @@ export default function App() {
         {/* ── SUCCESS ── */}
         {appState === STATE.SUCCESS && result && (
           <div className="status-panel status-panel--success">
-            <div className="success-icon">{result.offline ? '⏳' : '✓'}</div>
+            <div className="success-icon-wrap">{result.offline ? '⏳' : '✓'}</div>
             <p className="status-text status-text--big">
               {result.offline ? 'Opgeslagen voor later' : 'Opgeslagen in Mem!'}
             </p>
