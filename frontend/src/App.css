@@ -23,11 +23,14 @@ html, body, #root { height: 100%; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg);
+  background: transparent; /* SVG handles the background */
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
+
+html { background: var(--bg); } /* fallback dark bg */
+#root { background: transparent; }
 
 /* ─── Layout ───────────────────────────────────────────────── */
 .app {
@@ -37,8 +40,6 @@ body {
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: env(safe-area-inset-bottom, 20px);
-  position: relative;
-  z-index: 1;
 }
 
 /* ─── Header ───────────────────────────────────────────────── */
@@ -50,6 +51,8 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   background: rgba(5, 5, 16, 0.6);
+  position: relative;
+  z-index: 1;
 }
 
 .app-logo-wrap {
@@ -120,14 +123,16 @@ body {
   flex-direction: column;
   padding: 24px 20px;
   gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── Input Panel ──────────────────────────────────────────── */
 .input-panel {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  flex: 1;
+  gap: 16px;
+  width: 100%;
 }
 
 .input-hint {
@@ -151,9 +156,7 @@ body {
 
 .main-textarea {
   width: 100%;
-  background: rgba(5, 5, 20, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(8, 8, 25, 0.92);
   border: none;
   border-radius: calc(var(--radius) - 2px);
   padding: 16px;
@@ -182,18 +185,21 @@ body {
   flex-wrap: nowrap;
   gap: 7px;
   overflow-x: auto;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding-bottom: 2px;
+  padding: 4px 0 6px;
+  min-height: 44px;
+  align-items: center;
 }
 .category-picker::-webkit-scrollbar { display: none; }
 
 .cat-chip {
   padding: 7px 14px;
   border-radius: 20px;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  color: var(--muted);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.07);
+  color: #e0e0e0;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
