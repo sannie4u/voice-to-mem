@@ -137,9 +137,11 @@ html { background: var(--bg); } /* fallback dark bg */
 
 .input-hint {
   font-size: 15px;
-  color: var(--muted);
+  color: rgba(255,255,255,0.6);
   text-align: center;
   line-height: 1.4;
+  position: relative;
+  z-index: 2;
 }
 
 /* Instagram-style story ring around textarea */
@@ -179,26 +181,6 @@ html { background: var(--bg); } /* fallback dark bg */
   text-align: center;
 }
 
-.wispr-btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: var(--radius);
-  border: 1.5px solid rgba(160, 140, 255, 0.5);
-  background: rgba(120, 80, 255, 0.15);
-  color: #d0c8ff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  transition: background 0.15s, border-color 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  z-index: 2;
-}
-.wispr-btn:hover, .wispr-btn:focus {
-  background: rgba(120, 80, 255, 0.25);
-  border-color: rgba(160, 140, 255, 0.8);
-}
 
 /* ─── Category Picker ──────────────────────────────────────── */
 .category-picker {
