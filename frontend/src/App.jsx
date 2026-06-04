@@ -29,7 +29,8 @@ export default function App() {
   }, [appState]);
 
   const handleSend = useCallback(async () => {
-    const trimmed = text.trim();
+    // Read directly from DOM so Wispr Flow input is captured
+    const trimmed = (textareaRef.current?.value || text).trim();
     if (!trimmed) return;
 
     setAppState(STATE.SENDING);
@@ -40,6 +41,7 @@ export default function App() {
       setResult(data);
       setAppState(STATE.SUCCESS);
       setText('');
+      if (textareaRef.current) textareaRef.current.value = '';
       setTimeout(() => setAppState(STATE.IDLE), 3000);
     } catch (err) {
       if (!offlineQueue.isOnline || err.retryable) {
@@ -47,6 +49,7 @@ export default function App() {
         setResult({ title: 'Opgeslagen voor later', category, offline: true });
         setAppState(STATE.SUCCESS);
         setText('');
+        if (textareaRef.current) textareaRef.current.value = '';
         setTimeout(() => setAppState(STATE.IDLE), 2500);
       } else {
         setSendError(err.message);
@@ -57,6 +60,7 @@ export default function App() {
 
   const handleDiscard = useCallback(() => {
     setText('');
+    if (textareaRef.current) textareaRef.current.value = '';
     setSendError(null);
     setAppState(STATE.IDLE);
   }, []);
@@ -96,18 +100,16 @@ export default function App() {
               ref={textareaRef}
               className="main-textarea"
               placeholder="Je memo verschijnt hier…"
-              value={text}
-              onChange={e => setText(e.target.value)}
+              defaultValue=""
+              onInput={e => setText(e.target.value)}
               onKeyDown={handleKeyDown}
               rows={6}
-              autoFocus
             />
             <CategoryPicker selected={category} onChange={setCategory} />
             <div className="review-actions">
               <button
                 className="btn btn--primary"
                 onClick={handleSend}
-                disabled={!text.trim()}
               >
                 Verstuur naar Mem
               </button>
