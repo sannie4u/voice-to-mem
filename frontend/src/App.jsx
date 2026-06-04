@@ -94,7 +94,7 @@ export default function App() {
         {appState === STATE.IDLE && (
           <div className="input-panel">
             <p className="input-hint">
-              Spreek via Wispr Flow of het toetsenbord 🎙
+              Spreek via Wispr of het toetsenbord 🎙
             </p>
             <div className="textarea-wrap">
               <textarea
