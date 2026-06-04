@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { HexBackground } from './components/HexBackground.jsx';
 import { CategoryPicker } from './components/CategoryPicker.jsx';
 import { QueueStatus } from './components/QueueStatus.jsx';
 import { useOfflineQueue } from './hooks/useOfflineQueue.js';
@@ -72,16 +71,14 @@ export default function App() {
 
   return (
     <div className="app">
-      <HexBackground />
       <header className="app-header">
-        <div className="app-logo-wrap">🎙</div>
+        <span className="app-logo">🎙</span>
         <span className="app-title">VoiceMem</span>
         <span
           className={`backend-dot ${backendOk === null ? 'dot--unknown' : backendOk ? 'dot--ok' : 'dot--err'}`}
           title={backendOk === null ? 'Verbinden…' : backendOk ? 'Verbonden' : 'Backend niet bereikbaar'}
         />
       </header>
-      <div className="header-divider" />
 
       <QueueStatus
         queueCount={offlineQueue.queueCount}
@@ -95,18 +92,16 @@ export default function App() {
         {/* ── IDLE: main input screen ── */}
         {appState === STATE.IDLE && (
           <div className="input-panel">
-            <div className="textarea-wrap">
-              <textarea
-                ref={textareaRef}
-                className="main-textarea"
-                placeholder="Je memo verschijnt hier…"
-                value={text}
-                onChange={e => setText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                rows={6}
-                autoFocus
-              />
-            </div>
+            <textarea
+              ref={textareaRef}
+              className="main-textarea"
+              placeholder="Je memo verschijnt hier…"
+              value={text}
+              onChange={e => setText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              rows={6}
+              autoFocus
+            />
             <CategoryPicker selected={category} onChange={setCategory} />
             <div className="review-actions">
               <button
@@ -129,7 +124,7 @@ export default function App() {
         {/* ── SENDING ── */}
         {appState === STATE.SENDING && (
           <div className="status-panel">
-            <div className="spinner-wrap"><div className="spinner-inner" /></div>
+            <div className="spinner" />
             <p className="status-text">Versturen naar Mem…</p>
           </div>
         )}
@@ -137,7 +132,7 @@ export default function App() {
         {/* ── SUCCESS ── */}
         {appState === STATE.SUCCESS && result && (
           <div className="status-panel status-panel--success">
-            <div className="success-icon-wrap">{result.offline ? '⏳' : '✓'}</div>
+            <div className="success-icon">{result.offline ? '⏳' : '✓'}</div>
             <p className="status-text status-text--big">
               {result.offline ? 'Opgeslagen voor later' : 'Opgeslagen in Mem!'}
             </p>

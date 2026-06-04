@@ -2,35 +2,34 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #050510;
-  --surface:   rgba(10, 10, 28, 0.85);
-  --surface2:  rgba(20, 20, 45, 0.8);
-  --border:    rgba(255,255,255,0.1);
-  --text:      #fafafa;
-  --muted:     #a8a8a8;
-  --faint:     #363636;
+  --bg:      #060612;
+  --surface: rgba(255,255,255,0.06);
+  --border:  rgba(255,255,255,0.12);
+  --text:    #f0f0f0;
+  --muted:   #999;
+  --green:   #22c55e;
+  --red:     #ef4444;
+  --amber:   #f59e0b;
+  --radius:  16px;
 
   /* Instagram gradient */
-  --ig: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  --ig-alt: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-
-  --radius-sm: 12px;
-  --radius:    16px;
-  --radius-lg: 24px;
+  --ig: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
 }
 
 html, body, #root { height: 100%; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: transparent; /* SVG handles the background */
+  /* Pure CSS glow background — no SVG, no z-index tricks */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 55% at 10% 95%, rgba(219,39,119,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at 90% 5%,  rgba(99,102,241,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(124,58,237,0.06) 0%, transparent 70%);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
-
-html { background: var(--bg); } /* fallback dark bg */
-#root { background: transparent; }
 
 /* ─── Layout ───────────────────────────────────────────────── */
 .app {
@@ -39,60 +38,47 @@ html { background: var(--bg); } /* fallback dark bg */
   min-height: 100dvh;
   max-width: 480px;
   margin: 0 auto;
-  padding-bottom: env(safe-area-inset-bottom, 20px);
+  padding-bottom: env(safe-area-inset-bottom, 16px);
 }
 
 /* ─── Header ───────────────────────────────────────────────── */
 .app-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(5, 5, 16, 0.6);
-  position: relative;
-  z-index: 1;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
 }
 
-.app-logo-wrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--ig-alt);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
+.app-logo { font-size: 22px; }
 
 .app-title {
   font-size: 20px;
   font-weight: 700;
   flex: 1;
-  background: var(--ig-alt);
+  background: var(--ig);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.3px;
 }
 
 .backend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
+  width: 8px; height: 8px; border-radius: 50%;
+  transition: background 0.3s;
 }
-.dot--unknown { background: var(--faint); }
-.dot--ok      { background: #22c55e; box-shadow: 0 0 6px #22c55e88; }
-.dot--err     { background: #ef4444; }
+.dot--unknown { background: #444; }
+.dot--ok      { background: var(--green); box-shadow: 0 0 6px #22c55e88; }
+.dot--err     { background: var(--red); }
 
-/* ─── Divider ──────────────────────────────────────────────── */
-.header-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 0 20px;
+/* ─── Main ─────────────────────────────────────────────────── */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  gap: 20px;
 }
 
 /* ─── Queue Banner ─────────────────────────────────────────── */
@@ -100,67 +86,40 @@ html { background: var(--bg); } /* fallback dark bg */
   padding: 10px 20px;
   font-size: 13px;
   text-align: center;
-  font-weight: 500;
 }
-.queue-banner--offline { background: #1a1000; color: #fcb045; }
-.queue-banner--pending { background: #1a001a; color: #cc2366; }
-
+.queue-banner--offline { background: rgba(251,191,36,0.1); color: var(--amber); }
+.queue-banner--pending { background: rgba(124,58,237,0.1); color: #a78bfa; }
 .retry-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: underline;
-  padding: 0 4px;
-}
-
-/* ─── Main ─────────────────────────────────────────────────── */
-.app-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 20px;
-  gap: 20px;
-  position: relative;
-  z-index: 1;
+  background: none; border: none; cursor: pointer;
+  color: #c4b5fd; font-size: 13px; text-decoration: underline; padding: 0 4px;
 }
 
 /* ─── Input Panel ──────────────────────────────────────────── */
 .input-panel {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 100%;
 }
 
 .input-hint {
   font-size: 15px;
-  color: rgba(255,255,255,0.6);
+  color: var(--muted);
   text-align: center;
-  line-height: 1.4;
-  position: relative;
-  z-index: 2;
 }
 
-/* Instagram-style story ring around textarea */
-.textarea-wrap {
-  position: relative;
-  border-radius: var(--radius);
-  padding: 2px;
-  background: var(--border);
-  transition: background 0.2s;
-}
-.textarea-wrap:focus-within {
-  background: var(--ig-alt);
+.input-tip {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
 }
 
+/* Gradient ring on focus */
 .main-textarea {
   width: 100%;
-  background: rgba(8, 8, 25, 0.92);
-  border: none;
-  border-radius: calc(var(--radius) - 2px);
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
   padding: 16px;
   color: var(--text);
   font-size: 17px;
@@ -168,52 +127,43 @@ html { background: var(--bg); } /* fallback dark bg */
   resize: none;
   outline: none;
   font-family: inherit;
-  min-height: 180px;
-  display: block;
+  min-height: 160px;
+  transition: border-color 0.2s;
 }
-.main-textarea::placeholder {
-  color: var(--faint);
+.main-textarea:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #833ab4, 0 0 0 3px #fd1d1d;
 }
-
-.input-tip {
-  font-size: 12px;
-  color: var(--faint);
-  text-align: center;
-}
-
+.main-textarea::placeholder { color: rgba(255,255,255,0.2); }
 
 /* ─── Category Picker ──────────────────────────────────────── */
 .category-picker {
   display: flex;
   flex-wrap: nowrap;
-  gap: 7px;
+  gap: 8px;
   overflow-x: auto;
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 4px 0 6px;
-  min-height: 44px;
-  align-items: center;
+  padding-bottom: 2px;
 }
 .category-picker::-webkit-scrollbar { display: none; }
 
 .cat-chip {
-  padding: 7px 14px;
+  padding: 7px 16px;
   border-radius: 20px;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.07);
-  color: #e0e0e0;
+  border: 1.5px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
-  -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
   flex-shrink: 0;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 .cat-chip--active {
+  background: var(--ig);
   border-color: transparent;
-  background: var(--ig-alt);
   color: #fff;
   font-weight: 600;
 }
@@ -236,103 +186,59 @@ html { background: var(--bg); } /* fallback dark bg */
   transition: opacity 0.15s, transform 0.1s;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  letter-spacing: 0.01em;
 }
-.btn:active   { transform: scale(0.98); opacity: 0.9; }
+.btn:active   { transform: scale(0.98); }
 .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-.btn--primary {
-  background: var(--ig-alt);
-  color: #fff;
-}
-.btn--ghost {
-  background: var(--surface2);
-  color: var(--muted);
-  border: 1.5px solid var(--border);
-}
+.btn--primary { background: var(--ig); color: #fff; }
+.btn--ghost   { background: rgba(255,255,255,0.06); color: var(--muted); border: 1.5px solid var(--border); }
 
 /* ─── Status Panels ────────────────────────────────────────── */
 .status-panel {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 14px;
   text-align: center;
-  animation: fade-up 0.3s ease;
+  animation: fade-in 0.3s ease;
 }
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(12px); }
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Spinner with gradient */
-.spinner-wrap {
-  width: 56px;
-  height: 56px;
+.spinner {
+  width: 48px; height: 48px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #833ab4;
   border-radius: 50%;
-  background: var(--ig-alt);
-  padding: 3px;
-  animation: spin 0.9s linear infinite;
-}
-.spinner-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--bg);
+  animation: spin 0.7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Success icon with gradient ring */
-.success-icon-wrap {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: var(--ig-alt);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 38px;
+.success-icon {
+  font-size: 52px;
   animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 @keyframes pop {
-  0%   { transform: scale(0.4); opacity: 0; }
+  0%   { transform: scale(0.5); opacity: 0; }
   100% { transform: scale(1);   opacity: 1; }
 }
 
-.status-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
-}
+.status-text     { font-size: 18px; font-weight: 600; }
 .status-text--big {
-  font-size: 22px;
-  font-weight: 700;
-  background: var(--ig-alt);
+  font-size: 22px; font-weight: 700;
+  background: var(--ig);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.status-subtext {
-  font-size: 15px;
-  color: var(--muted);
-  max-width: 280px;
-  line-height: 1.4;
-}
-.status-tags {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 500;
-}
+.status-subtext { font-size: 15px; color: var(--muted); max-width: 300px; }
+.status-tags    { font-size: 13px; color: #a78bfa; }
 
-.status-panel--error .status-text { color: #ef4444; }
+.status-panel--success .status-text { color: var(--green); }
+.status-panel--error   .status-text { color: var(--red); }
 
 .error-msg {
-  font-size: 13px;
-  color: #ef4444;
-  text-align: center;
-  max-width: 300px;
-  line-height: 1.4;
+  font-size: 13px; color: var(--red);
+  text-align: center; max-width: 300px; line-height: 1.4;
 }
